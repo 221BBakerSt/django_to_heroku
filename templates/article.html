@@ -1,0 +1,145 @@
+{% extends "base-blog.html" %}
+
+{% load static %}
+{% load embed_video_tags %}
+{% block content %}
+
+  <div id="wrapper">
+
+    <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="inner-heading">
+              <ul class="breadcrumb">
+                <li><a href="/">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="/blog">Blog</a> <i class="icon-angle-right"></i></li>
+                <li class="active"><strong> {{ article.title }}</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span8">
+
+            <article>
+              <div class="row">
+                <div class="span8">
+                  <div class="post-image">
+                    <div class="post-heading">
+                      <h3>{{ article.title }}</h3>
+                      {% csrf_token %}
+                      {% if "/False" not in article.preview.url %}
+                        <img src="{{ article.preview.url }}" />
+                      {% endif %}
+                      {% if article.video != "False" %}
+                        {% video article.video '750x421.875' %}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="meta-post">
+                    <ul>
+                      <li><i class="icon-calendar"></i> On <a class="date">{{ article.timestamp }}</a>&nbsp;</li>
+                      <li><i class="icon-user"></i> By <a href="/blog/author/{{ article.author.author_name }}" class="author">{{ article.author.author_name }}</a>&nbsp;</li>
+                      <li><i class="icon-folder-open"></i> Category 
+                        {% for cate in article.category.all %}
+                        <a href="/blog/category/{{ cate }}">{{ cate }}</a>
+                        &nbsp;
+                        {% endfor %}
+                      </li>
+                      <li><i class="icon-tags"></i> Tags 
+                        {% for tag in article.tag.all %}
+                        <a href="/blog/tag/{{ tag }}">{{ tag }}</a>
+                        &nbsp;
+                        {% endfor %}
+                      </li>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div class="post-entry">
+                    <p>{{ article.body|safe }}</p><br>
+                    <p><a class="like icon-thumbs-up" val=""> Like</a></p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <div class="comment-area">
+              <h4>{{ comments.count }} comment(s)</h4><br>
+              <div class="media">
+                {% for comment in comments %}
+                <a href="#" class="pull-left"><img src="{{ comment.user.avatar.url }}" class="img-circle avatar-small" /></a>
+                <div class="media-body">
+                  <div class="media-content">
+                    <p><h6>{{ comment.user }} &nbsp<span>&nbsp;&nbsp; {{ comment.comment_time|date:"d M Y, H:i:s" }}</span></h6></p>
+                    <p>{{ comment.body|safe }}</p>
+                    <a href="#" class="align-right">Reply</a>
+                    {% if comment.user == request.user %}
+                    <a href="/comment/delete/{{ article.article_id }}/{{ comment.pk }}" class="align-right">Delete</a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div>
+              <div class="marginbot30">
+                {% if request.user.is_authenticated %}
+                <h4>Leave your comment</h4>
+                <form id="commentform" action="{% url 'comment:post_comment' article.id %}" method="post" name="comment-form">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="span8 margintop10">
+                      <!-- <textarea rows="12" class="input-block-level" placeholder="Your comment here"></textarea> -->
+                      <!-- code of editor itself: -->
+                      {{ comment_form.media }}
+                      <!-- code of users comments: -->
+                      {{ comment_form.body }}
+                      <script src='https://www.google.com/recaptcha/api.js'></script>
+                      <p><div class="g-recaptcha" data-sitekey="6LecUsMZAAAAAOOJPGZya91GI6gQLNvtt5BQ8nks"></div></p>
+                      <button class="btn btn-theme btn-medium margintop10" type="submit">Submit comment</button>
+                    </div>
+                  </div>
+                </form>
+                {% else %}
+                <h4>Login to comment</h4>
+                <form id="commentform" action="" method="post" name="comment-form">
+                  <div class="row">
+                    <div class="span8 margintop10">
+                      <p>
+                        <!-- code of editor itself: -->
+                        {{ comment_form.media }}
+                        <!-- code of users comments: -->
+                        {{ comment_form.body }}
+                      </p>
+                      <p>
+                        <a href="/accounts/login" class="btn btn-theme btn-medium margintop10" >Login to comment</a>
+                      </p>
+                    </div>
+                  </div>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+
+          {% include "sidebar.html" %}
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <a href="#" class="scrollup">
+    <i class="icon-angle-up icon-square icon-bglight icon-2x active"></i>
+  </a>
+
+{% endblock content %}

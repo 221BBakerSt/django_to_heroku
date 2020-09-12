@@ -1,0 +1,17 @@
+{% extends "base-index.html" %}
+{% load static %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-row">
+        <h2>Account Inactive</h2>
+        <hr>
+        <div class="profile">
+            <p>{% trans "This account is inactive." %}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

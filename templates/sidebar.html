@@ -1,0 +1,37 @@
+<div class="span4">
+    <aside class="right-sidebar">
+
+      <div class="widget">
+        <form action="/blog/search">
+          <div class="input-append">
+            <input class="span2" name="q" id="appendedInputButton" type="text" placeholder="Type to search">
+            <button class="btn btn-theme" type="submit"><i class="icon-search"></i> Search</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="widget">
+        <h5 class="widgetheading">Categories</h5>
+        <ul class="cat">
+          {% for each in categories %}
+          <li><i class="icon-angle-right"></i> <a href="/blog/category/{{ each.0 }}">{{ each.0 }}</a><span> ({{ each.1 }})</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h5 class="widgetheading">Tags</h5>
+        {% for each in tags %}
+        <a href="/blog/tag/{{ each.0 }}" class="btn">{{ each.0 }}</a>
+        {% endfor %}
+      </div>
+
+      <div class="widget">
+        <h5 class="widgetheading">Useful Links</h5>
+        {% for link in links %}
+        <a href="{{ link.0 }}" target="_blank" class="btn {{ link.1 }} btn-rounded">{{ link.2 }}</a>
+        {% endfor %}
+      </div>
+      
+    </aside>
+</div>

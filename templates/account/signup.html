@@ -1,0 +1,30 @@
+{% extends "base-index.html" %}
+{% load static %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Register" %}{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-row">
+        <h2>Register</h2>
+        <hr>
+        <!-- regular register -->
+        <form class="register" method="post" action="{% url 'account_signup' %}" id="signup_form">
+            {% csrf_token %}
+        
+            {{ form.as_p }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <p><a>Don't worry. No marketing or spam emails will be sent from this site.</a></p>
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="register">
+            <p>Already have an account?</p>
+            <p><a href='{{ login_url }}'>Click to login!</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

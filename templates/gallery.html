@@ -1,0 +1,75 @@
+{% extends "base-album.html" %}
+
+{% load static %}
+{% block content %}
+
+  <div id="wrapper">
+
+    <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="inner-heading">
+              <ul class="breadcrumb">
+                <li><a href="/">Home</a> <i class="icon-angle-right"></i></li>
+                <li><a href="/album">Album</a> <i class="icon-angle-right"></i></li>
+                <li class="active"><strong>{{ gallery.name }}</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+
+            <div class="clearfix"></div>
+
+            <div class="main-content row">
+              <section class="container-fluid photos">
+                <ul class="align-items-stretch">
+                  {% for photo in photos %}
+                  <li class="col-6 col-md-6 col-lg-4" data-aos="fade-up">
+                    <a href="{{ photo.photo_pic.url }}" class="d-block photo-item" data-fancybox="gallery">
+                      <div class="position-box">
+                        <img src="{{ photo.photo_pic.url }}" alt="Image" class="img-fluid">
+                      </div>
+                      <div class="photo-text-more">
+                        <span class="icon icon-file">&nbsp;&nbsp;{{ photo.description }}</span>
+                      </div>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </section>
+            </div>
+
+            <div class="pagination">
+              <ul>
+                {% if photos.has_previous %}
+                <li><a href="?{{ page_request_var }}=1">First</a></li>
+                <li><a href="?{{ page_request_var }}={{ article_list.previous_page_number }}"><</a></li>
+                {% endif %}
+                {% for page in page_range %}
+                
+                <li {% if article_list.number == page %} class="active" {% endif %}><a href="?{{ page_request_var }}={{page}}">{{page}}</a></li>
+                {% endfor %}
+                {% if photos.has_next %}
+                <li><a href="?{{ page_request_var }}={{ article_list.next_page_number }}">></a></li>
+                <li><a href="?{{ page_request_var }}={{ paginator.num_pages }}">Last</a></li>
+                {% endif %}
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <a href="#wrapper" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
+
+{% endblock content %}

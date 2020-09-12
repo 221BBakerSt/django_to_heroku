@@ -1,0 +1,45 @@
+{% extends "base-index.html" %}
+{% load static %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-row">
+        <h2>My Profile</h2>
+        <hr>
+        {% if user.socialaccount_set.all.0.get_avatar_url %}
+        <div style="max-width: 100px; max-height: 100px;">
+            <img id="avatar-social" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" style="max-width: 100%; max-height: 100%;">
+        </div>
+        {% else %}
+        <img id="avatar" src="{{ user.avatar.url }}">
+        {% endif %}        
+        <div class="profile">
+            <br>
+            <p>Username:</p>
+            <p style="font-weight: bold;">{{ user.username }}</p>
+            <p>
+                Email:
+                {% if not user.email_verified %}
+                <a href="{% url 'account_email' %}"> Verify My Email</a>
+                {% endif %}
+            </p>
+            <p style="font-weight: bold;">{{ user.email }}</p>
+            <!-- <p><button><a href="profile/update">Modify my avatar</a></button></p> -->
+            <form method="post" action="profile" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if not user.socialaccount_set.all.0.get_avatar_url %}
+                <div class="form-group col-md-4">
+                    <label for="avatar">Upload New Avatar</label>
+                    <input type="file" accept="image/*" class="avatar form-control-file" name="avatar">
+                </div>
+                <p><button type="submit">Modify my avatar</button></p>
+                {% endif %}
+                <p><button><a href="password/change">Modify my password</a></button></p>
+                <p><button><a href="email">Modify my email</a></button></p>
+                <!-- <p><button><a href="inactive">Inactivate my account</a></button></p> -->
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

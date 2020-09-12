@@ -1,0 +1,133 @@
+{% extends "base-blog.html" %}
+
+{% load static %}
+{% load embed_video_tags %}
+{% block content %}
+
+  <div id="wrapper">
+
+    <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="inner-heading">
+              <ul class="breadcrumb">
+                <li><a href="/">Home</a> <i class="icon-angle-right"></i></li>
+                <li class="active"><strong>Blog</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span8">
+            <!-- posts start here -->
+            {% for article in article_list %}
+            <article>
+              <div class="row">
+                <div class="span8">
+                  <div class="post-image">
+                    <div class="post-heading">
+                      <h3><a href="/blog/{{ article.article_id }}">
+                        {{ article.title }}
+                      </a></h3>
+                      {% if "/False" not in article.preview.url %}
+                      <img src="{{ article.preview.url }}" alt="" />
+                      {% endif %}
+                      {% csrf_token %}
+                      {% if article.video != "False" %}
+                      {% video article.video '750x421.875' %}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="meta-post">
+                    <ul>
+                      <li><i class="icon-calendar"></i> On <a class="date">{{ article.timestamp }}</a>&nbsp;</li>
+                      <li><i class="icon-user"></i> By <a href="/blog/author/{{ article.author.author_name }}" class="author">{{ article.author.author_name }}</a>&nbsp;</li>
+                      <li><i class="icon-folder-open"></i> Category 
+                        {% for cate in article.category.all %}
+                        <a href="/blog/category/{{ cate }}">{{ cate }}</a>
+                        &nbsp;
+                        {% endfor %}
+                      </li>
+                      <li><i class="icon-tags"></i> Tags 
+                        {% for tag in article.tag.all %}
+                        <a href="/blog/tag/{{ tag }}">{{ tag }}</a>
+                        &nbsp;
+                        {% endfor %}
+                      </li>
+                      {% if article.recommend %}
+                      <li class="icon-star"> Recommend</li>
+                      {% endif %}
+                      {% if article.top %}
+                      <li class="icon-pushpin"> Top</li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                  <div class="post-entry">
+                    <p>
+                      {% autoescape off %}
+                      {{ article.overview|safe }}
+                      {% endautoescape %}
+                    </p>
+                    <a href="/blog/{{ article.article_id }}" class="readmore">Read more <i class="icon-angle-right"></i></a>
+                  </div>
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+            <!-- posts end here -->
+
+            {% if search_query %}
+            <div class="pagination">
+              <ul>
+                {% if article_list.has_previous %}
+                <li><a href="?q={{ search_query }}&{{ page_request_var }}=1">First</a></li>
+                <li><a href="?q={{ search_query }}&{{ page_request_var }}={{ article_list.previous_page_number }}"><</a></li>
+                {% endif %}
+                {% for page in page_range %}
+                
+                <li {% if article_list.number == page %} class="active" {% endif %}><a href="?q={{ search_query }}&{{ page_request_var }}={{page}}">{{page}}</a></li>
+                {% endfor %}
+                {% if article_list.has_next %}
+                <li><a href="?q={{ search_query }}&{{ page_request_var }}={{ article_list.next_page_number }}">></a></li>
+                <li><a href="?q={{ search_query }}&{{ page_request_var }}={{ last_page }}">Last</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            {% else %}
+            <div class="pagination">
+              <ul>
+                {% if article_list.has_previous %}
+                <li><a href="?{{ page_request_var }}=1">First</a></li>
+                <li><a href="?{{ page_request_var }}={{ article_list.previous_page_number }}"><</a></li>
+                {% endif %}
+                {% for page in page_range %}
+                
+                <li {% if article_list.number == page %} class="active" {% endif %}><a href="?{{ page_request_var }}={{page}}">{{page}}</a></li>
+                {% endfor %}
+                {% if article_list.has_next %}
+                <li><a href="?{{ page_request_var }}={{ article_list.next_page_number }}">></a></li>
+                <li><a href="?{{ page_request_var }}={{ last_page }}">Last</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+
+          {% include "sidebar.html" %}
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <a href="#" class="scrollup">
+    <i class="icon-angle-up icon-square icon-bglight icon-2x active"></i>
+  </a>
+  
+{% endblock content %}

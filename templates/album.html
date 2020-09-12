@@ -1,0 +1,81 @@
+{% extends "base-album.html" %}
+
+{% load static %}
+{% block content %}
+
+  <div id="wrapper">
+
+    <!-- start slideshow -->
+    <div class="camera_wrap" id="camera-slide">
+      {% for pic in slide_pics %}
+      <div class="slide-pic" data-src="{{ pic.slide_pic.url }}">
+        <div class="location">
+          <i class="icon-anchor">
+            <span class="where"><strong> {{ pic.description }}</strong></span>
+          </i>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- end slideshow -->
+
+    <section id="inner-headline">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="inner-heading">
+              <ul class="breadcrumb">
+                <li><a href="/">Home</a> <i class="icon-angle-right"></i></li>
+                <li class="active"><strong>Album</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <ul class="portfolio-categ filter">
+              <li class="all active"><a href="#">All</a></li>
+              {% for gallery in galleries %}
+              <li class=""><a href="{% url 'album:gallery' gallery.name %}" title="">{{ gallery.name }}</a></li>
+              {% endfor %}
+            </ul>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <section id="projects">
+                <ul id="thumbs" class="grid cs-style-4 portfolio">
+                  {% for gallery in galleries %}
+                  <li class="item-thumbs span3 design" data-id="id-0" data-type="web">
+                    <div class="item">
+                      <!-- <a href="album/{{ gallery.name }}"> -->
+                      <a href="{% url 'album:gallery' gallery.name %}">
+                        <figure>
+                          <div>
+                            <img src="{{ gallery.cover.url }}" />
+                          </div>
+                          <figcaption>
+                            <div>{{ gallery.name }}</div>
+                          </figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <a href="#wrapper" class="scrollup"><i class="icon-angle-up icon-square icon-bglight icon-2x active"></i></a>
+
+{% endblock content %}

@@ -1,0 +1,102 @@
+{% extends "base-index.html" %}
+
+{% load static %}
+{% block content %}
+
+  <div class="jumbotron bg-transparent mb-0 radius-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-6">
+          <h1 class="display-2">
+            Welcome to my space, 221b Baker Street<span class="vim-caret">!</span>
+          </h1>
+          <div class="lead mb-3 text-mono text-success">
+            &#35; a free way to record my wonderful life and thoughts
+          </div>
+          <div class="text-mono">
+            {% if not user.is_authenticated %}
+            <a href="/accounts/login" title="Download Theme" class="btn btn-info btn-shadow px-3 my-2 ml-0 text-left">
+              Login
+            </a>
+            <a href="/accounts/signup" title="Download Theme" class="btn btn-success btn-shadow px-3 my-2 ml-0 text-left">
+              Register
+            </a>
+            {% endif %}
+            <a href="https://github.com/221BBakerSt" target="_blank" class="btn btn-danger btn-shadow px-3 my-2 ml-0 ml-sm-1 text-left">
+              Github
+            </a>
+          </div>
+          <div class="text-darkgrey text-mono my-2">motto</div>
+          <p class="mt-5 text-grey text-spacey">
+            L'homme n'est qu'un roseau, le plus faible de la nature; mais c'est un roseau pensant. 
+            Il ne faut pas que l'univers entier s'arme pour l'écraser: une vapeur, une goutte d'eau suffit pour le tuer. 
+            Mais, quand l'univers l'écraserait, l'homme serait encore plus noble que ce qui le tue, parce qu'il sait qu'il meurt, et l'avantage que l'univers a sur lui; l'univers n'en sait rien. 
+            Toute notre dignité consiste donc en la pensée.
+          </p>
+        </div>
+      </div>
+      <div class="sun">
+        <div>
+          <span class="hal-9000"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <section id="content">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="row">
+              <div class="span4">
+                <div class="box flyLeft">
+                  <div class="icon">
+                    <i class="ico icon-circled icon-bgdark icon-keyboard active icon-3x"></i>
+                  </div>
+                  <div class="text">
+                    <h4><a href="blog"><strong>BLOG</strong></a></h4>
+                    <p>
+                      My study and thinking on interesting technology, including
+                      programming languages, databases, network, blockchain, as well as culture and economy.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="span4">
+                <div class="box flyIn">
+                  <div class="icon">
+                    <i class="ico icon-circled icon-bgdark icon-picture active icon-3x"></i>
+                  </div>
+                  <div class="text">
+                    <h4><a href="album"><strong>ALBUM</strong></a></h4>
+                    <p>
+                      My exploration of the world, including places I've visited, films 
+                      and music I like, and all other exciting moments.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="span4">
+                <div class="box flyRight">
+                  <div class="icon">
+                    <i class="ico icon-circled icon-bgdark icon-user active icon-3x"></i>
+                  </div>
+                  <div class="text">
+                    <h4><a href="about"><strong>ABOUT</strong></a></h4>
+                    <p>
+                      About me and this website. Any thoughts 
+                      or advice? Leave a message, please : )
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+{% endblock content %}

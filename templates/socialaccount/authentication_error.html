@@ -1,0 +1,23 @@
+{% extends "base-index.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-row">
+        <h2>{% trans "Social Network Login Failure" %}</h2>
+        <hr>
+        <div class="login">
+            <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+            <p>Code: </p>
+            {{ auth_error.code }}
+            <br><br>
+            <p>Error: </p>
+            {{ auth_error.exception }}
+        </div>
+    </div>
+</div>
+{% endblock %}

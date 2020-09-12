@@ -1,0 +1,142 @@
+{% extends "base-about.html" %}
+
+{% load static %}
+{% block content %}
+
+<div id="wrapper">
+
+  <!-- start header -->
+
+  <!-- end header -->
+  <section id="inner-headline">
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="inner-heading">
+            <ul class="breadcrumb">
+              <li><a href="index.html">Home</a> <i class="icon-angle-right"></i></li>
+              <li class="active"><strong>About</strong></li>
+            </ul>
+            <!-- <h2>Components</h2> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="content">
+    <div class="container">
+      <div class="row demobtn">
+        <div class="span12">
+          <div class="row" id="item1">
+            <div class="carousel" id="item">
+              <h4>About Me</h4>
+              <ul class="bxslider">
+
+                {% for owner in owners %}
+                <li>
+                  <div class="carousel-author">
+                    <img src="{{ owner.pic.url }}" />
+                    <br>
+                    <br>
+                    <blockquote>
+                      {{ owner.description }}
+                    </blockquote>
+                  </div>
+                </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+
+            <div class="span6" id="item">
+              <h4>About This Site</h4>
+              <div class="accordion" id="accordion2">
+
+                {% for bulletin in bulletins %}
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle {% if bulletin.id == 1 %}active{% endif %}" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{ bulletin.id }}">
+                      <i class="{% if bulletin.id == 1 %}icon-minus{% else %}icon-plus{% endif %}"></i> {{ bulletin.title }} 
+                    </a>
+                  </div>
+                  <div id="collapse{{ bulletin.pk }}" class="accordion-body collapse {% if bulletin.id == 1 %}in{% endif %}">
+                    <div class="accordion-inner">
+                      {{ bulletin.body|safe }}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="span8">
+              <h4>Leave a message</h4>
+              <br>
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div id="errormessage">Failed to send your message. Please try Again.</div>
+
+              <form action="/about" method="POST" class="contactForm">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="span4 form-group field">
+                    <input type="text" name="nickname" id="name" placeholder="Your Name or Nickname" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="span4 form-group">
+                    <input type="email" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="span8 form-group">
+                    <input type="text" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="span8 form-group">
+                    <textarea name="message" rows="5" data-rule="required" data-msg="Please write something for us"
+                      placeholder="Message"></textarea>
+                    <div class="validation"></div>
+                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                    <p><div class="g-recaptcha" data-sitekey="6LecUsMZAAAAAOOJPGZya91GI6gQLNvtt5BQ8nks"></div></p>
+                    <div class="text-center">
+                      <button class="btn btn-theme btn-medium margintop10" type="submit">Send a message</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="span4">
+              <div class="clearfix"></div>
+              <aside class="right-sidebar">
+  
+                <div class="widget">
+                  <h4 class="widgetheading">My Contact<span></span></h4>
+  
+                  <ul class="contact-info">
+                    <li><label>Email : </label> ke.huang@edhec.com</li>
+                    <li><label>Address :</label> Paris, France<br /> </li>
+                    <!-- <li><label>Phone :</label>+33 6 81 79 21 35</li> -->
+                  </ul>
+  
+                </div>
+              </aside>
+            </div>
+          </div>
+
+        </div>
+        <!-- end span12 -->
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<a href="#" class="scrollup">
+  <i class="icon-angle-up icon-square icon-bglight icon-2x active"></i>
+</a>
+
+{% endblock content %}
