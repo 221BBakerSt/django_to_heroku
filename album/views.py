@@ -20,7 +20,7 @@ def gallery(request, name):
     photos = Photo.objects.filter(gallery__name=name)
 
     """ beginning of pagination process """
-    # set the number of articles shown on every page
+    # set the number of photos shown on every page
     paginator = Paginator(photos, NUM_ON_EACH_PAGE)
     # set the page request variable
     page_request_var = "page"
@@ -42,6 +42,7 @@ def gallery(request, name):
         "gallery": gallery,
         "photos": paginated_photos,
         "page_range": page_range,
+        "last_page": paginator.num_pages,
         "page_request_var": page_request_var,
         }
     return render(request, "gallery.html", context)

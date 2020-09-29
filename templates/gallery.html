@@ -51,15 +51,15 @@
               <ul>
                 {% if photos.has_previous %}
                 <li><a href="?{{ page_request_var }}=1">First</a></li>
-                <li><a href="?{{ page_request_var }}={{ article_list.previous_page_number }}"><</a></li>
+                <li><a href="?{{ page_request_var }}={{ photos.previous_page_number }}"><</a></li>
                 {% endif %}
                 {% for page in page_range %}
                 
                 <li {% if article_list.number == page %} class="active" {% endif %}><a href="?{{ page_request_var }}={{page}}">{{page}}</a></li>
                 {% endfor %}
                 {% if photos.has_next %}
-                <li><a href="?{{ page_request_var }}={{ article_list.next_page_number }}">></a></li>
-                <li><a href="?{{ page_request_var }}={{ paginator.num_pages }}">Last</a></li>
+                <li><a href="?{{ page_request_var }}={{ photos.next_page_number }}">></a></li>
+                <li><a href="?{{ page_request_var }}={{ last_page }}">Last</a></li>
                 {% endif %}
               </ul>
             </div>
